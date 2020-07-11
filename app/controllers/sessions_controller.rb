@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       # change to line above when ticket finished
       redirect_to root_url
     else
-      flash.now[:danger] = 'Email or password error'
+      flash.now[:error] = 'Email or password error'
       render 'new'
     end
   end

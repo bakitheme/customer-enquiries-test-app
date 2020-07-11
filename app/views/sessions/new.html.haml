@@ -3,6 +3,8 @@
 .row
   .col-6.offset-3
     .mt-5.p-5
+      -if flash[:error]
+        .alert.alert-danger=flash[:error]
       %h1.text-primary Log In
       =form_for(:session, url: login_path) do |f|
         .form-group

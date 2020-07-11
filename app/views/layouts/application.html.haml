@@ -9,4 +9,8 @@
   =stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
   =javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 %body
-  =yield
+  .container.mt-5.mb-5
+    .row
+      .col-12
+        =render 'static_pages/navigation'
+    =yield

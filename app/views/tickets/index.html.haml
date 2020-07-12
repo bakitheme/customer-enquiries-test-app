@@ -1,0 +1,25 @@
+=provide(:title, 'Tickets List')
+
+%ul#pills-tab.nav.nav-pills.nav-justified.mt-5.mb-3{:role => 'tablist'}
+  %li.nav-item
+    %a#pills-all-tab.nav-link.active{'aria-controls' => 'pills-all', 'aria-selected' => 'true', 'data-toggle' => 'pill', :href => '#pills-all', :role => 'tab'} All
+  %li.nav-item
+    %a#pills-new-tab.nav-link{'aria-controls' => 'pills-new', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-new', :role => 'tab'} New
+  %li.nav-item
+    %a#pills-open-tab.nav-link{'aria-controls' => 'pills-open', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-open', :role => 'tab'} Open
+  %li.nav-item
+    %a#pills-on-hold-tab.nav-link{'aria-controls' => 'pills-on-hold', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-on-hold', :role => 'tab'} On Hold
+  %li.nav-item
+    %a#pills-closed-tab.nav-link{'aria-controls' => 'pills-closed', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-closed', :role => 'tab'} Closed
+#pills-tabContent.tab-content
+  #pills-all.tab-pane.fade.show.active{'aria-labelledby' => 'pills-all-tab', :role => 'tabpanel'}
+    %h3.mt-3 All tickets
+  #pills-new.tab-pane.fade{'aria-labelledby' => 'pills-new-tab', :role => 'tabpanel'}
+    %h3.mt-3 New unassigned tickets
+  #pills-open.tab-pane.fade{'aria-labelledby' => 'pills-open-tab', :role => 'tabpanel'}
+    %h3.mt-3 Open tickets
+  #pills-on-hold.tab-pane.fade{'aria-labelledby' => 'pills-on-hold-tab', :role => 'tabpanel'}
+    %h3.mt-3 On hold tickets
+  #pills-closed.tab-pane.fade{'aria-labelledby' => 'pills-closed-tab', :role => 'tabpanel'}
+    %h3.mt-3 Closed tickets
+

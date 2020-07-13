@@ -1,23 +1,27 @@
 .mt-5.p-5.border.border-primary.shadow-lg.rounded
-  -if flash[:error]
-    .alert.alert-danger=flash[:error]
+  - if flash[:danger]
+    .alert.alert-danger= flash[:danger]
   %h3.text-primary New Issue Ticket
-  =form_for(:ticket, url: create_ticket_path) do |f|
+  = form_for(:ticket, url: create_path) do |f|
     .form-group
-      =f.label :email
-      =f.email_field :email, class: 'form-control'
+      = f.label :client_name
+      = f.text_field :client_name, class: 'form-control'
 
     .form-group
-      =f.label :name
-      =f.text_field :name, class: 'form-control'
+      = f.label :client_email
+      = f.email_field :client_email, class: 'form-control'
 
     .form-group
-      =f.label :subject
-      =f.text_field :subject, class: 'form-control'
+      = f.label :category
+      = f.collection_select :category, TicketCategory.all, :id, :category_name, {}, {class: 'form-control'}
 
     .form-group
-      =f.label :content
-      =f.text_area :content, class: 'form-control'
+      = f.label :subject
+      = f.text_field :subject, class: 'form-control'
 
     .form-group
-      =f.submit 'Send', class: 'btn btn-primary btn-lg btn-block'
+      = f.label :content
+      = f.text_area :content, class: 'form-control'
+
+    .form-group
+      = f.submit 'Send', class: 'btn btn-primary btn-lg btn-block'

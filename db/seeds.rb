@@ -16,13 +16,17 @@ TicketStatus.create!(status_name: 'On Hold')
 TicketStatus.create!(status_name: 'Cancelled')
 TicketStatus.create!(status_name: 'Completed')
 
-5.times do |n|
+25.times do
   name = Faker::Name.name
-  email = "example#{n+1}@mail.org"
+  email = Faker::Internet.email
   subject = Faker::Lorem.sentence(word_count: 3)
   content = Faker::Lorem.sentence(word_count: 20)
+  status = rand(1..5)
+  category = rand(1..6)
   Ticket.create!(client_name: name,
                  client_email: email,
+                 ticket_category_id: category,
+                 ticket_status_id: status,
                  subject: subject,
                  content: content)
 end

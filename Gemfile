@@ -29,6 +29,11 @@ end
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'pry-rails'
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'pry-nav'
+  gem 'pry-stack_explorer'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

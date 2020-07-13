@@ -3,6 +3,9 @@ class TicketsController < ApplicationController
 
   def index
     @tickets = Ticket.all
+    @statuses = TicketStatus.all
+
+    redirect_to root_url unless logged_in?
   end
 
   def create
@@ -20,6 +23,9 @@ class TicketsController < ApplicationController
   private
 
   def ticket_params
-    params.require(:ticket).permit(:client_name, :client_email, :ticket_category_id, :ticket_status_id, :subject, :content)
+    params.require(:ticket).permit(:client_name,
+                                   :client_email,
+                                   :subject,
+                                   :content)
   end
 end

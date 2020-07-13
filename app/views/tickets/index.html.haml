@@ -1,24 +1,32 @@
 = provide(:title, 'Tickets List')
 
-= redirect_to root_url unless logged_in?
-
 %ul#pills-tab.nav.nav-pills.nav-justified.mt-5.mb-3{:role => 'tablist'}
   %li.nav-item
     %a#pills-all-tab.nav-link.active{'aria-controls' => 'pills-all', 'aria-selected' => 'true', 'data-toggle' => 'pill', :href => '#pills-all', :role => 'tab'} All
-  %li.nav-item
-    %a#pills-new-tab.nav-link{'aria-controls' => 'pills-new', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-new', :role => 'tab'} New
-  %li.nav-item
-    %a#pills-open-tab.nav-link{'aria-controls' => 'pills-open', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-open', :role => 'tab'} Open
-  %li.nav-item
-    %a#pills-on-hold-tab.nav-link{'aria-controls' => 'pills-on-hold', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-on-hold', :role => 'tab'} On Hold
-  %li.nav-item
-    %a#pills-closed-tab.nav-link{'aria-controls' => 'pills-closed', 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => '#pills-closed', :role => 'tab'} Closed
+  - @statuses.each do |status|
+    %li.nav-item
+      %a.nav-link{id: "pils-#{status.id}",'aria-controls' => "pills-#{status.id}", 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => "#pills-#{status.id}", :role => 'tab'}= status.status_name
 #pills-tabContent.tab-content
   #pills-all.tab-pane.fade.show.active{'aria-labelledby' => 'pills-all-tab', :role => 'tabpanel'}
     %h3.mt-3 All tickets
     .row
-      - if @tickets.any?
-        - @tickets.each do |ticket|
+      - @tickets.each do |ticket|
+        .col-4
+          .card.border-light.mb-3
+            .card-header
+              %h4= ticket.client_name
+              .float-right.badge= ticket.ticket_status&.status_name
+              %small.text-muted= time_ago_in_words(ticket.created_at)
+            .card-body
+              %small.text-primry= ticket.ticket_category&.category_name
+              %h5.card-title= ticket.subject
+              %p.card-text= ticket.content
+  - @statuses.each do |status|
+    .tab-pane.fade{id: "pills-#{status.id}", 'aria-labelledby' => "pills-#{status.id}-tab", :role => 'tabpanel'}
+      .row
+        .col-12
+          %h3.mt-3.mb-3= status.status_name
+        - @tickets.where(ticket_status_id: status.id).each do |ticket|
           .col-4
             .card.border-light.mb-3
               .card-header
@@ -29,12 +37,3 @@
                 %small.text-primry= ticket.ticket_category&.category_name
                 %h5.card-title= ticket.subject
                 %p.card-text= ticket.content
-  #pills-new.tab-pane.fade{'aria-labelledby' => 'pills-new-tab', :role => 'tabpanel'}
-    %h3.mt-3 New unassigned tickets
-  #pills-open.tab-pane.fade{'aria-labelledby' => 'pills-open-tab', :role => 'tabpanel'}
-    %h3.mt-3 Open tickets
-  #pills-on-hold.tab-pane.fade{'aria-labelledby' => 'pills-on-hold-tab', :role => 'tabpanel'}
-    %h3.mt-3 On hold tickets
-  #pills-closed.tab-pane.fade{'aria-labelledby' => 'pills-closed-tab', :role => 'tabpanel'}
-    %h3.mt-3 Closed tickets
-

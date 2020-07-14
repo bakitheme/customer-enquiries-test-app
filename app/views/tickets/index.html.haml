@@ -12,10 +12,11 @@
     .row
       - @tickets.each do |ticket|
         .col-4
-          .card.border-light.mb-3
+          .card.mb-3{class: "border-#{ticket.ticket_status.color}"}
             .card-header
+              %small.font-weight-bold= ticket.reference
               %h4= ticket.client_name
-              .float-right.badge= ticket.ticket_status&.status_name
+              .float-right.badge{class: "badge-#{ticket.ticket_status.color}"}= ticket.ticket_status&.status_name
               %small.text-muted= time_ago_in_words(ticket.created_at)
             .card-body
               %small.text-primry= ticket.ticket_category&.category_name
@@ -28,10 +29,11 @@
           %h3.mt-3.mb-3= status.status_name
         - @tickets.where(ticket_status_id: status.id).each do |ticket|
           .col-4
-            .card.border-light.mb-3
+            .card.mb-3{class: "border-#{status.color}"}
               .card-header
+                %small.font-weight-bold= ticket.reference
                 %h4= ticket.client_name
-                .float-right.badge= ticket.ticket_status&.status_name
+                .float-right.badge{class: "badge-#{status.color}"}= ticket.ticket_status&.status_name
                 %small.text-muted= time_ago_in_words(ticket.created_at)
               .card-body
                 %small.text-primry= ticket.ticket_category&.category_name

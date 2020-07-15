@@ -2,7 +2,7 @@ class TicketsController < ApplicationController
   def new; end
 
   def index
-    @tickets = Ticket.all
+    @tickets = Ticket.where(activated: true)
     @statuses = TicketStatus.all
 
     redirect_to root_url unless logged_in?
@@ -13,12 +13,16 @@ class TicketsController < ApplicationController
 
     if @ticket.save
       @ticket.send_activation_email
-      flash[:success] = 'Request successfuly created'
+      flash[:success] = 'Check your e-mail for ticket activation'
       redirect_to root_url
     else
       flash[:danger] = 'Error'
       redirect_to root_url
     end
+  end
+
+  def edit
+
   end
 
   private

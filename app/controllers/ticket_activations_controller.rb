@@ -7,7 +7,7 @@ class TicketActivationsController < ApplicationController
       ticket.update_attribute(:activated_at, Time.zone.now)
       log_in ticket
       flash[:success] = 'Your request activated!'
-      redirect_to create_path
+      redirect_to ticket
     else
       flash[:danger] = 'Invalid activation link'
       redirect_to root_url

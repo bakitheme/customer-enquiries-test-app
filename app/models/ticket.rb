@@ -13,15 +13,15 @@ class Ticket < ApplicationRecord
   validates :client_name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A\S+@.+\.\S+\z/i
   validates :client_email, presence: true, length: { maximum: 100 },
-                    format: { with: VALID_EMAIL_REGEX },
+                    format: { with: VALID_EMAIL_REGEX }
 
 
   def self.generate_reference
-    gen = (1..3).map { ('A'..'Z').to_a[rand(0..25)]} <<
+    gen = (1..3).map { ('A'..'Z').to_a[rand(0..25)] } <<
     ['-'] << SecureRandom.hex(1) <<
-    ['-'] << (1..3).map { ('A'..'Z').to_a[rand(0..25)]} <<
+    ['-'] << (1..3).map { ('A'..'Z').to_a[rand(0..25)] } <<
     ['-'] << SecureRandom.hex(1) <<
-    ['-'] << (1..3).map { ('A'..'Z').to_a[rand(0..25)]}
+    ['-'] << (1..3).map { ('A'..'Z').to_a[rand(0..25)] }
 
     return gen.join.upcase
   end

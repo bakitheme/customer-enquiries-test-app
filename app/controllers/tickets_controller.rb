@@ -21,6 +21,12 @@ class TicketsController < ApplicationController
     end
   end
 
+  def show
+    @ticket = Ticket.find(params[:id])
+
+    redirect_to tickets unless @ticket.activated?
+  end
+
   def edit
 
   end

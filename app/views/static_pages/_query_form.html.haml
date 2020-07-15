@@ -17,7 +17,7 @@
 
       = f.hidden_field :ticket_status_id, value: 1
 
-      = f.text_field :reference, value: "#{Ticket.generate_reference}"
+      = f.hidden_field :reference, value: "#{Ticket.generate_reference}"
 
     .form-group
       = f.label :subject

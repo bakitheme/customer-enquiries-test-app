@@ -1,8 +1,12 @@
 .ticket-head
-  %h3= 'Hello, ' + @ticket.client_name
+  %h1 Confirmation email
+  %p= 'You, ' + @ticket.client_name + ' created new ticket, subject: ' + @ticket.subject + '. Here is text of your request: '
 
 .ticket-body
-  %small= @ticket.reference
-  %p Ticket you submitted recently need to be activated. For activation click on link below. Not activated tickets we ignore. If you don`t submit anything ignore this message
+  %p= @ticket.content
+  %p Ticket you submitted recently need to be activated. For activation click on link below. Not activated tickets we ignore. If you don`t submit anything ignore this message.
+  %p Reference code:
+  %b= @ticket.reference
 
+.ticket-footer
   = link_to 'Activate', edit_ticket_activation_url(@ticket.activation_token, client_email: @ticket.client_email), class: 'button'

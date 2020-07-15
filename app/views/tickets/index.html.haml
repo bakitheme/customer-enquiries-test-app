@@ -22,6 +22,8 @@
               %small.text-primry= ticket.ticket_category&.category_name
               %h5.card-title= ticket.subject
               %p.card-text= ticket.content
+            .card-footer
+              = link_to "View | #{ticket.id}", ticket, class: "btn btn-#{ticket.ticket_status.color}"
   - @statuses.each do |status|
     .tab-pane.fade{id: "pills-#{status.id}", 'aria-labelledby' => "pills-#{status.id}-tab", :role => 'tabpanel'}
       .row
@@ -39,3 +41,5 @@
                 %small.text-primry= ticket.ticket_category&.category_name
                 %h5.card-title= ticket.subject
                 %p.card-text= ticket.content
+              .card-footer
+                = link_to "View | #{ticket.id}", ticket, class: "btn btn-#{status.color}"

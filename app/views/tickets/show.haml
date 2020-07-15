@@ -1,0 +1,16 @@
+.row.mt-5
+  .col-6
+    .card.mb-3.shadow-lg{class: "border-#{@ticket.ticket_status.color}"}
+      .card-header
+        %small.font-weight-bold= @ticket.reference
+        %h4= @ticket.client_name
+        .float-right.badge{class: "badge-#{@ticket.ticket_status.color}"}= @ticket.ticket_status&.status_name
+        %small.text-muted= time_ago_in_words(@ticket.created_at)
+      .card-body
+        %small.text-primry= @ticket.ticket_category&.category_name
+        %h5.card-title= @ticket.subject
+        %p.card-text= @ticket.content
+      .card-footer
+        %a.btn.btn-dark.text-white.btn-block Edit
+  .col-6
+    %h5.font-weight-bold Ticket History

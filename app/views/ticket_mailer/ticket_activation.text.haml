@@ -1,0 +1,6 @@
+Hello,
+= @ticket.client_name
+
+Ticket you submitted recently need to be activated. For activation click on link below. Not activated tickets we ignore.
+
+= link_to 'Activate', edit_ticket_activation_url(@ticket.activation_token, client_email: @ticket.client_email)

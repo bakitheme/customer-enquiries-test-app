@@ -3,6 +3,11 @@ class Ticket < ApplicationRecord
   belongs_to :ticket_category, optional: true
   belongs_to :ticket_status, optional: true
 
+  attr_accessor :remember_token, :activation_token
+
+  before_save { self.client_email = client_email.downcase }
+  before_create :create_activation_digest
+
   default_scope -> { order(created_at: :desc) }
 
   validates :client_name, presence: true, length: { maximum: 50 }
@@ -13,7 +18,37 @@ class Ticket < ApplicationRecord
 
 
   def self.generate_reference
-      gen = (1..3).map { ('A'..'Z').to_a[rand(0..25)]} << ['-'] << SecureRandom.hex(1) << ['-'] << (1..3).map { ('A'..'Z').to_a[rand(0..25)]} << ['-'] << SecureRandom.hex(1) << ['-'] << (1..3).map { ('A'..'Z').to_a[rand(0..25)]}
-      return gen.join.upcase
+    gen = SecureRandom.alphanumeric(3) +
+          '-' + SecureRandom.hex(1) +
+          '-' + SecureRandom.alphanumeric(3) +
+          '-' + SecureRandom.hex(1) +
+          '-' + SecureRandom.alphanumeric(3)
+    return gen.upcase
+  end
+
+  def self.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  def activate
+    update_columns(activated: true,
+                   activated_at: Time.zone.now)
+  end
+
+  def send_activation_email
+    TicketMailer.ticket_activation(self).deliver_now
+  end
+
+  private
+
+  def create_activation_digest
+    self.activation_token = Ticket.new_token
+    self.activation_digest = Ticket.digest(activation_token)
   end
 end

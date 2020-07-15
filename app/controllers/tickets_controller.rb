@@ -12,6 +12,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.new(ticket_params)
 
     if @ticket.save
+      @ticket.send_activation_email
       flash[:success] = 'Request successfuly created'
       redirect_to root_url
     else

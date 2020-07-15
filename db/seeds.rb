@@ -35,5 +35,7 @@ TicketStatus.create!(status_name: 'Completed',
                  ticket_status_id: status,
                  subject: subject,
                  content: content,
-                 reference: reference)
+                 reference: reference,
+                 activated: true,
+                 activated_at: Time.zone.now)
 end

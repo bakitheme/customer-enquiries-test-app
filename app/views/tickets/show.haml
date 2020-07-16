@@ -12,16 +12,17 @@
         %small.text-primry= @ticket.ticket_category&.category_name
         %h5.card-title= @ticket.subject
         %p.card-text= @ticket.content
-
+      .card-footer
+        = link_to 'Edit', edit_ticket_path, class: "btn btn-lg btn-#{@ticket.ticket_status.color}"
     .card.mb-3.shadow-lg.border-0
       .card-header
-        %h3 Update your ticket
-        %p You can add new information to your ticket using the form below. All changes will appear in ticket history.
+        %h3 Comment as owner
+        %p You can add comment to this ticket as his owner, through comments you can discuss ticket topic with his author.
       .card-body
         = form_for(:history, url: history_create_path) do |f|
           .form-group
             = f.hidden_field :ticket_id, value: @ticket.id
-            = f.hidden_field :header, value: 'Client update', class: 'form-control'
+            = f.hidden_field :header, value: 'Stuff say:', class: 'form-control'
 
           .form-group
             = f.label :content
@@ -29,7 +30,7 @@
             %small{id: 'contentHelp', class: 'form-text text-muted'} Up to 200 characters
 
           .form-group
-            = f.submit 'Edit', class: "btn btn-#{@ticket.ticket_status.color}"
+            = f.submit 'Comment', class: "btn btn-#{@ticket.ticket_status.color}"
 
   .col-6
     %h3.font-weight-bold.mb-5 Ticket History

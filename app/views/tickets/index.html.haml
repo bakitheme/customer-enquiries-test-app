@@ -3,6 +3,7 @@
 %ul#pills-tab.nav.nav-pills.nav-justified.mt-5.mb-3{:role => 'tablist'}
   %li.nav-item
     %a#pills-all-tab.nav-link.active{'aria-controls' => 'pills-all', 'aria-selected' => 'true', 'data-toggle' => 'pill', :href => '#pills-all', :role => 'tab'} All
+
   - @statuses.each do |status|
     %li.nav-item
       %a.nav-link{id: "pils-#{status.id}",'aria-controls' => "pills-#{status.id}", 'aria-selected' => 'false', 'data-toggle' => 'pill', :href => "#pills-#{status.id}", :role => 'tab'}= status.status_name
@@ -10,6 +11,7 @@
   #pills-all.tab-pane.fade.show.active{'aria-labelledby' => 'pills-all-tab', :role => 'tabpanel'}
     %h3.mt-3 All tickets
     .row
+
       - @tickets.each do |ticket|
         .col-4
           .card.mb-3{class: "border-#{ticket.ticket_status.color}"}
@@ -17,6 +19,7 @@
               %small.font-weight-bold= ticket.reference
               %h4= ticket.client_name
               .float-right.badge{class: "badge-#{ticket.ticket_status.color}"}= ticket.ticket_status&.status_name
+              .float-right.badge.badge-dark= ticket.history.count
               %small.text-muted= time_ago_in_words(ticket.created_at)
             .card-body
               %small.text-primry= ticket.ticket_category&.category_name
@@ -24,6 +27,7 @@
               %p.card-text= ticket.content
             .card-footer
               = link_to "View | #{ticket.id}", ticket, class: "btn btn-#{ticket.ticket_status.color}"
+
   - @statuses.each do |status|
     .tab-pane.fade{id: "pills-#{status.id}", 'aria-labelledby' => "pills-#{status.id}-tab", :role => 'tabpanel'}
       .row
@@ -36,6 +40,7 @@
                 %small.font-weight-bold= ticket.reference
                 %h4= ticket.client_name
                 .float-right.badge{class: "badge-#{status.color}"}= ticket.ticket_status&.status_name
+                .float-right.badge.badge-dark= ticket.history.count
                 %small.text-muted= time_ago_in_words(ticket.created_at)
               .card-body
                 %small.text-primry= ticket.ticket_category&.category_name

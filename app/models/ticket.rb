@@ -3,6 +3,8 @@ class Ticket < ApplicationRecord
   belongs_to :ticket_category, optional: true
   belongs_to :ticket_status, optional: true
 
+  has_many :history, dependent: :destroy
+
   attr_accessor :activation_token
 
   before_save { self.client_email = client_email.downcase }

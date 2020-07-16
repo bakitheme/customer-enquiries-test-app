@@ -23,6 +23,7 @@ class TicketsController < ApplicationController
 
   def show
     @ticket = Ticket.find(params[:id])
+    @histories = History.where(ticket_id: params[:id])
 
     redirect_to tickets unless @ticket.activated?
   end

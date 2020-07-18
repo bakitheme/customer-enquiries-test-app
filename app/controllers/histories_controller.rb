@@ -1,6 +1,6 @@
 class HistoriesController < ApplicationController
   def create
-    @history = @ticket.history.build(history_params)
+    @history = History.new(history_params)
 
     if @history.save
       flash[:success] = 'Changes accepted :)'

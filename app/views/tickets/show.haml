@@ -14,23 +14,43 @@
         %p.card-text= @ticket.content
       .card-footer
         = link_to 'Edit', edit_ticket_path, class: "btn btn-lg btn-#{@ticket.ticket_status.color}"
-    .card.mb-3.shadow-lg.border-0
-      .card-header
-        %h3 Comment as owner
-        %p You can add comment to this ticket as his owner, through comments you can discuss ticket topic with his author.
-      .card-body
-        = form_for(:history, url: history_create_path) do |f|
-          .form-group
-            = f.hidden_field :ticket_id, value: @ticket.id
-            = f.hidden_field :header, value: 'Stuff say:', class: 'form-control'
 
-          .form-group
-            = f.label :content
-            = f.text_area :content, class: 'form-control'
-            %small{id: 'contentHelp', class: 'form-text text-muted'} Up to 200 characters
+    - if logged_in?
+      .card.mb-3.shadow-lg.border-0
+        .card-header
+          %h3 Comment as owner
+          %p You can add comment to this ticket as his owner, through comments you can discuss ticket topic with his author.
+        .card-body
+          = form_for(:history, url: history_create_path) do |f|
+            .form-group
+              = f.hidden_field :ticket_id, value: @ticket.id
+              = f.hidden_field :header, value: "#{@current_user.name} | say:", class: 'form-control'
 
-          .form-group
-            = f.submit 'Comment', class: "btn btn-#{@ticket.ticket_status.color}"
+            .form-group
+              = f.label :content
+              = f.text_area :content, class: 'form-control'
+              %small{id: 'contentHelp', class: 'form-text text-muted'} Up to 200 characters
+
+            .form-group
+              = f.submit 'Comment', class: "btn btn-#{@ticket.ticket_status.color}"
+    - else
+      .card.mb-3.shadow-lg.border-0
+        .card-header
+          %h3 Comment as client
+          %p You can add comment to this ticket as his creator, through comments you can discuss ticket topic with stuff and his owner.
+        .card-body
+          = form_for(:history, url: history_create_path) do |f|
+            .form-group
+              = f.hidden_field :ticket_id, value: @ticket.id
+              = f.hidden_field :header, value: "#{@ticket.client_name} | say:", class: 'form-control'
+
+            .form-group
+              = f.label :content
+              = f.text_area :content, class: 'form-control'
+              %small{id: 'contentHelp', class: 'form-text text-muted'} Up to 200 characters
+
+            .form-group
+              = f.submit 'Comment', class: "btn btn-#{@ticket.ticket_status.color}"
 
   .col-6
     %h3.font-weight-bold.mb-5 Ticket History

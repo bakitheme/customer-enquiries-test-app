@@ -1,4 +1,5 @@
 class TicketsController < ApplicationController
+  include TicketsHelper
   def new; end
 
   def index
@@ -43,12 +44,13 @@ class TicketsController < ApplicationController
 
     if @ticket.update_attributes(ticket_params)
       flash[:success] = 'Successfully changed :)'
-
       if logged_in?
-        History.create!(header: "#{@current_user.name} | updated ticket",
-                        content: "Ticket status now is:
-                                  #{@ticket.ticket_status.status_name}",
-                        ticket_id: @ticket.id )
+        if @ticket.ticket_status_id_changed?
+          History.create!(header: "#{@current_user.name} | updated ticket",
+                          content: "Ticket status now is:
+                                    #{@ticket.ticket_status.status_name}",
+                          ticket_id: @ticket.id )
+        end
       else
         History.create!(header: "#{@ticket.client_name} | updated ticket",
                         content: @ticket.content,
@@ -67,6 +69,7 @@ class TicketsController < ApplicationController
                                    :client_email,
                                    :ticket_category_id,
                                    :ticket_status_id,
+                                   :user_id,
                                    :subject,
                                    :content,
                                    :reference)

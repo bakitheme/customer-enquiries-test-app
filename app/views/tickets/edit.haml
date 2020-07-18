@@ -2,9 +2,13 @@
   .col-6
     .card.mb-3.shadow-lg{class: "border-#{@ticket.ticket_status.color}"}
       .card-header
+
         - if logged_in?
           %small.font-weight-bold= @ticket.reference
         %h4= @ticket.client_name
+
+        - if ownership?
+          .badge.badge-dark= 'Owner: ' + @ticket.user.name
         .float-right.badge{class: "badge-#{@ticket.ticket_status.color}"}= @ticket.ticket_status&.status_name
         .float-right.badge.badge-dark= @ticket.history.count
         %small.text-muted= time_ago_in_words(@ticket.created_at)
@@ -16,12 +20,14 @@
         = link_to 'Show', ticket_path, class: "btn btn-lg btn-#{@ticket.ticket_status.color}"
 
   .col-5
+
     - if !logged_in?
       .card.mb-3.shadow-lg.border-0
         .card-header
           %h3 Update your ticket
           %p You can add new information to your ticket using the form below. All changes will appear in ticket history.
         .card-body
+
           = form_for(@ticket) do |f|
             .form-group
               = f.hidden_field :ticket_id, value: @ticket.id
@@ -36,18 +42,36 @@
               = f.submit 'Edit', class: "btn btn-#{@ticket.ticket_status.color}"
 
     - else
-      .card.mb-3.shadow-lg.border-0
-        .card-header
-          %h3 Change status
-          %p You can change status of this ticket. Select status
-        .card-body
-          = form_for(@ticket) do |f|
-            .form-group
-              = f.hidden_field :id, value: @ticket.id
+      - if is_owner?
+        .card.mb-3.shadow-lg.border-0
+          .card-header
+            %h3 Change status
+            %p You can change status of this ticket. Select status
+          .card-body
 
-            .form-group
-              = f.label :ticket_status_id
-              = f.collection_select :ticket_status_id, TicketStatus.all, :id, :status_name, {}, {class: 'form-control'}
+            = form_for(@ticket) do |f|
+              .form-group
+                = f.hidden_field :id, value: @ticket.id
 
-            .form-group
-              = f.submit 'Change', class: "btn btn-#{@ticket.ticket_status.color}"
+              .form-group
+                = f.label :ticket_status_id
+                = f.collection_select :ticket_status_id, TicketStatus.all, :id, :status_name, {}, {class: 'form-control'}
+
+              .form-group
+                = f.submit 'Change', class: "btn btn-#{@ticket.ticket_status.color}"
+
+        = form_for(@ticket) do |f|
+          .form-group
+            = f.hidden_field :id, value: @ticket.id
+            = f.hidden_field :user_id, value: nil
+
+          .form-group
+            = f.submit 'Cancel ownership', class: "btn btn-danger btn-lg btn-block"
+      - else
+        = form_for(@ticket) do |f|
+          .form-group
+            = f.hidden_field :id, value: @ticket.id
+            = f.hidden_field :user_id, value: @current_user.id
+
+          .form-group
+            = f.submit 'Take ownership', class: "btn btn-light btn-lg btn-block"

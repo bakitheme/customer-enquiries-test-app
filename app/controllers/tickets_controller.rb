@@ -3,8 +3,15 @@ class TicketsController < ApplicationController
   def new; end
 
   def index
-    @tickets = Ticket.where(activated: true)
     @statuses = TicketStatus.all
+
+    if params[:search]
+      @tickets = Ticket.where('reference LIKE :search
+                               OR content LIKE :search
+                               OR subject LIKE :search', search: "%#{params[:search]}%")
+    else
+      @tickets = Ticket.where(activated: true)
+    end
 
     redirect_to root_url unless logged_in?
   end
@@ -72,6 +79,7 @@ class TicketsController < ApplicationController
                                    :user_id,
                                    :subject,
                                    :content,
-                                   :reference)
+                                   :reference,
+                                   :search)
   end
 end

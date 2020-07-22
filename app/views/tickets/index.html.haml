@@ -10,6 +10,8 @@
 #pills-tabContent.tab-content
   #pills-all.tab-pane.fade.show.active{'aria-labelledby' => 'pills-all-tab', :role => 'tabpanel'}
     %h3.mt-3 All tickets
+    - if @current_user.admin?
+      = render 'admin'
     = render 'search'
     .row
 
@@ -17,6 +19,8 @@
         .col-4
           .card.mb-3{class: "border-#{ticket.ticket_status.color}"}
             .card-header
+              - if @current_user.admin?
+                = link_to 'Delete', ticket, method: :delete, data: { confirm: 'You sure?' }, class: 'badge badge-danger badge-pill float-right'
               %small.font-weight-bold= ticket.reference
               %h4= ticket.client_name
               .float-right.badge{class: "badge-#{ticket.ticket_status.color}"}= ticket.ticket_status&.status_name
@@ -33,11 +37,16 @@
     .tab-pane.fade{id: "pills-#{status.id}", 'aria-labelledby' => "pills-#{status.id}-tab", :role => 'tabpanel'}
       .row
         .col-12
+          - if status.id > 5
+            = link_to 'Delete', status, method: :delete, data: { confirm: 'You sure?' }, class: 'badge badge-danger badge-pill'
           %h3.mt-3.mb-3= status.status_name
+
         - @tickets.where(ticket_status_id: status.id).each do |ticket|
           .col-4
             .card.mb-3{class: "border-#{status.color}"}
               .card-header
+                - if @current_user.admin?
+                  = link_to 'Delete', ticket, method: :delete, data: { confirm: 'You sure?' }, class: 'badge badge-danger badge-pill float-right'
                 %small.font-weight-bold= ticket.reference
                 %h4= ticket.client_name
                 .float-right.badge{class: "badge-#{status.color}"}= ticket.ticket_status&.status_name

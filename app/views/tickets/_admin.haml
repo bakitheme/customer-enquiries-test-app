@@ -1,0 +1,27 @@
+.row.mb-3
+  .col-6
+    .card
+      .card-header
+        %h3 Create new category
+      .card-body
+        = form_for(:ticket_category, url: category_create_path) do |f|
+          .form-group
+            = f.label :category_name
+            = f.text_field :category_name, class: 'form-control'
+
+          .form-group
+            = f.submit 'Create category', class: 'btn btn-primary'
+
+  .col-6
+    .card
+      .card-header
+        %h3 Create new status
+      .card-body
+        = form_for(:ticket_status, url: status_create_path) do |f|
+          .form-group
+            = f.label :status_name
+            = f.text_field :status_name, class: 'form-control'
+            = f.hidden_field :color, value: 'dark'
+
+          .form-group
+            = f.submit 'Create status', class: 'btn btn-primary'

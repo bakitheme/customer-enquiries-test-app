@@ -1,0 +1,45 @@
+.row.mt-5
+  .col-6
+    .card.mb-3.shadow-lg{class: "border-#{@ticket.ticket_status.color}"}
+      .card-header
+        - if logged_in?
+          %small.font-weight-bold= @ticket.reference
+        %h4= @ticket.client_name
+        .float-right.badge{class: "badge-#{@ticket.ticket_status.color}"}= @ticket.ticket_status&.status_name
+        .float-right.badge.badge-dark= @ticket.history.count
+        %small.text-muted= time_ago_in_words(@ticket.created_at)
+      .card-body
+        %small.text-primry= @ticket.ticket_category&.category_name
+        %h5.card-title= @ticket.subject
+        %p.card-text= @ticket.content
+
+    .card.mb-3.shadow-lg.border-0
+      .card-header
+        %h3 Update your ticket
+        %p You can add new information to your ticket using the form below. All changes will appear in ticket history.
+      .card-body
+        = form_for(:history, url: history_create_path) do |f|
+          .form-group
+            = f.hidden_field :ticket_id, value: @ticket.id
+            = f.hidden_field :header, value: 'Client update', class: 'form-control'
+
+          .form-group
+            = f.label :content
+            = f.text_area :content, class: 'form-control'
+            %small{id: 'contentHelp', class: 'form-text text-muted'} Up to 200 characters
+
+          .form-group
+            = f.submit 'Edit', class: "btn btn-#{@ticket.ticket_status.color}"
+
+  .col-6
+    %h3.font-weight-bold.mb-5 Ticket History
+    - if flash[:success]
+      .alert.alert-success= flash[:success]
+    - @histories.each do |history|
+      .card.mb-3.shadow-lg.border-0
+        .card-body
+          - if logged_in?
+            = link_to 'Delete', history, method: :delete, data: { confirm: 'You sure?' }, class: 'btn btn-danger btn-sm float-right'
+          %h6.font-weight-bold= history.header
+          %small.text-muted= time_ago_in_words(history.created_at)
+          %p= history.content

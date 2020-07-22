@@ -2,7 +2,7 @@ class TicketsController < ApplicationController
   def new; end
 
   def index
-    @tickets = Ticket.all
+    @tickets = Ticket.where(activated: true)
     @statuses = TicketStatus.all
 
     redirect_to root_url unless logged_in?
@@ -12,7 +12,8 @@ class TicketsController < ApplicationController
     @ticket = Ticket.new(ticket_params)
 
     if @ticket.save
-      flash[:success] = 'Request successfuly created'
+      @ticket.send_activation_email
+      flash[:success] = 'Check your e-mail for ticket activation'
       redirect_to root_url
     else
       flash[:danger] = 'Error'
@@ -20,12 +21,26 @@ class TicketsController < ApplicationController
     end
   end
 
+  def show
+    @ticket = Ticket.find(params[:id])
+    @histories = History.where(ticket_id: params[:id])
+
+    redirect_to tickets unless @ticket.activated?
+  end
+
+  def edit
+
+  end
+
   private
 
   def ticket_params
     params.require(:ticket).permit(:client_name,
                                    :client_email,
+                                   :ticket_category_id,
+                                   :ticket_status_id,
                                    :subject,
-                                   :content)
+                                   :content,
+                                   :reference)
   end
 end

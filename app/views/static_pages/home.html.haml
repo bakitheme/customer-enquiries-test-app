@@ -1,7 +1,12 @@
-=provide(:title, 'Home')
+= provide(:title, 'Home')
 
 .row
   .col-5
-    =render 'query_form'
+    - if logged_in?
+      .bg-light.mt-5.p-5.rounded.shadow-lg
+        %h3= 'Attension, ' + @current_user.name
+        %p Ticket submition aviable only for clients
+    - else
+      = render 'query_form'
   .col-7
-    =render 'hint'
+    = render 'hint'

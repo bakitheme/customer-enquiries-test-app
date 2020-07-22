@@ -6,8 +6,6 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:session][:password])
       log_in user
-      # redirect_to tickets
-      # change to line above when ticket finished
       redirect_to tickets_url
     else
       flash.now[:error] = 'Email or password error'

@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
   get 'tickets', to: 'tickets#index'
   post 'create', to: 'tickets#create'
+  post 'history_create', to: 'histories#create'
   get 'users/new'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
   root 'static_pages#home'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resources :tickets
+  resources :ticket_activations, only: [:edit]
+  resources :histories, only: [:edit, :destroy]
 end

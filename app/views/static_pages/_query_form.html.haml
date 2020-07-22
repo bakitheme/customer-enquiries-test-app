@@ -12,8 +12,12 @@
       = f.email_field :client_email, class: 'form-control'
 
     .form-group
-      = f.label :category
-      = f.collection_select :category, TicketCategory.all, :id, :category_name, {}, {class: 'form-control'}
+      = f.label :ticket_category_id
+      = f.collection_select :ticket_category_id, TicketCategory.all, :id, :category_name, {}, {class: 'form-control'}
+
+      = f.hidden_field :ticket_status_id, value: 1
+
+      = f.hidden_field :reference, value: "#{Ticket.generate_reference}"
 
     .form-group
       = f.label :subject

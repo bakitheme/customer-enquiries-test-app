@@ -1,16 +1,27 @@
-%form.p-5.shadow-lg.rounded.mt-5.border.border-primary
-  %h2.text-primary Submit query
-  .form-group
-    %label{for: 'clientName'} Name:
-    %input.form-control{type: 'text', id: 'clientName', placeholder: 'Please, enter your name...'}
-  .form-group
-    %label{for: 'clientEmail'} Email:
-    %input.form-control{type: 'email', id: 'clientEmail', placeholder: 'Please, enter your email...'}
-  .form-group
-    %label{for: 'clientQuerySubject'} Subject:
-    %input.form-control{type: 'text', id: 'clientQuerySubject', placeholder: 'Subject of your query...'}
-  .form-group
-    %label{for: 'clientRequest'} Request body:
-    %textarea.form-control{id: 'clientRequest', placeholder: 'Text of your request...'}
-  .form-group
-    %input.btn.btn-primary.btn-lg.btn-block{type: 'submit', value: 'Submit'}
+.mt-5.p-5.border.border-primary.shadow-lg.rounded
+  - if flash[:danger]
+    .alert.alert-danger= flash[:danger]
+  %h3.text-primary New Issue Ticket
+  = form_for(:ticket, url: create_path) do |f|
+    .form-group
+      = f.label :client_name
+      = f.text_field :client_name, class: 'form-control'
+
+    .form-group
+      = f.label :client_email
+      = f.email_field :client_email, class: 'form-control'
+
+    .form-group
+      = f.label :category
+      = f.collection_select :category, TicketCategory.all, :id, :category_name, {}, {class: 'form-control'}
+
+    .form-group
+      = f.label :subject
+      = f.text_field :subject, class: 'form-control'
+
+    .form-group
+      = f.label :content
+      = f.text_area :content, class: 'form-control'
+
+    .form-group
+      = f.submit 'Send', class: 'btn btn-primary btn-lg btn-block'

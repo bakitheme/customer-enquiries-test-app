@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'tickets', to: 'tickets#index'
+  post 'create', to: 'tickets#create'
   get 'users/new'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

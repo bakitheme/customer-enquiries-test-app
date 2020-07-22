@@ -69,6 +69,14 @@ class TicketsController < ApplicationController
     end
   end
 
+  def destroy
+    @ticket = Ticket.find(params[:id])
+
+    @ticket.destroy
+    flash[:success] = 'Item deleted :('
+    redirect_to request.referrer
+  end
+
   private
 
   def ticket_params

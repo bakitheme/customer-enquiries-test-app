@@ -1,0 +1,16 @@
+%form.p-5.shadow-lg.rounded.mt-5.border.border-primary
+  %h2.text-primary Submit query
+  .form-group
+    %label{for: 'clientName'} Name:
+    %input.form-control{type: 'text', id: 'clientName', placeholder: 'Please, enter your name...'}
+  .form-group
+    %label{for: 'clientEmail'} Email:
+    %input.form-control{type: 'email', id: 'clientEmail', placeholder: 'Please, enter your email...'}
+  .form-group
+    %label{for: 'clientQuerySubject'} Subject:
+    %input.form-control{type: 'text', id: 'clientQuerySubject', placeholder: 'Subject of your query...'}
+  .form-group
+    %label{for: 'clientRequest'} Request body:
+    %textarea.form-control{id: 'clientRequest', placeholder: 'Text of your request...'}
+  .form-group
+    %input.btn.btn-primary.btn-lg.btn-block{type: 'submit', value: 'Submit'}

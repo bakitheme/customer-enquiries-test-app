@@ -10,6 +10,7 @@
 #pills-tabContent.tab-content
   #pills-all.tab-pane.fade.show.active{'aria-labelledby' => 'pills-all-tab', :role => 'tabpanel'}
     %h3.mt-3 All tickets
+    = render 'search'
     .row
 
       - @tickets.each do |ticket|

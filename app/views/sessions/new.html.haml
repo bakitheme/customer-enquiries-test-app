@@ -1,0 +1,19 @@
+=provide(:title, 'Log In')
+
+.row
+  .col-6.offset-3
+    .mt-5.p-5
+      -if flash[:error]
+        .alert.alert-danger=flash[:error]
+      %h1.text-primary Log In
+      =form_for(:session, url: login_path) do |f|
+        .form-group
+          =f.label :email
+          =f.email_field :email, class: 'form-control'
+
+        .form-group
+          =f.label :password
+          =f.password_field :password, class: 'form-control'
+
+        .form-group
+          =f.submit 'Login', class: 'btn btn-primary btn-lg btn-block'

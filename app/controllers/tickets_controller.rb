@@ -1,5 +1,7 @@
 class TicketsController < ApplicationController
   include TicketsHelper
+  include ActiveModel::Dirty
+
   def new; end
 
   def index
@@ -51,12 +53,26 @@ class TicketsController < ApplicationController
 
     if @ticket.update_attributes(ticket_params)
       flash[:success] = 'Successfully changed :)'
+
       if logged_in?
-        if @ticket.ticket_status_id_changed?
+        if @ticket.previous_changes['ticket_status_id']
           History.create!(header: "#{@current_user.name} | updated ticket",
                           content: "Ticket status now is:
                                     #{@ticket.ticket_status.status_name}",
                           ticket_id: @ticket.id )
+        end
+
+        if @ticket.previous_changes['user_id']
+          if @ticket.user_id.nil?
+            History.create!(header: "#{@current_user.name} | updated ticket",
+                            content: "Ticket ownership canceled",
+                            ticket_id: @ticket.id )
+          else
+            History.create!(header: "#{@current_user.name} | updated ticket",
+                            content: "Ticket owner now is:
+                                      #{@ticket.user.name}",
+                            ticket_id: @ticket.id )
+          end
         end
       else
         History.create!(header: "#{@ticket.client_name} | updated ticket",

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'ticket_sessions/new'
   get 'tickets', to: 'tickets#index'
   post 'create', to: 'tickets#create'
   post 'history_create', to: 'histories#create'

@@ -25,8 +25,8 @@ class TicketsController < ApplicationController
       @ticket.send_activation_email
 
       History.create!(header: 'This ticket created',
-                      content: "Ticket author: #{ticket.client_name} topic
-                                of this ticket - #{ticket.subject}",
+                      content: "Ticket author: #{@ticket.client_name} topic
+                                of this ticket - #{@ticket.subject}",
                       ticket_id: @ticket.id )
 
       flash[:success] = 'Check your e-mail for ticket activation'

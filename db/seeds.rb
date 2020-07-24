@@ -1,7 +1,8 @@
 User.create!(name: 'Denis',
              email: 'denis@gmail.com',
              password: 'foobar',
-             password_confirmation: 'foobar')
+             password_confirmation: 'foobar',
+             admin: true)
 
 TicketCategory.create!(category_name: 'Setup Problem')
 TicketCategory.create!(category_name: 'Technical Problems')

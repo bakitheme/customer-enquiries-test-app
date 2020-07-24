@@ -9,11 +9,11 @@
           Home
           %span.sr-only (current)
 
-        -if logged_in?
+        - if logged_in?
           %li.nav-item
-            =link_to 'Log Out', logout_path, method: 'delete', class: 'nav-link'
+            = link_to 'Log Out', logout_path, method: 'delete', class: 'nav-link'
           %li.nav-item
-            =link_to "#{@current_user.name}", tickets_url, class: 'nav-link text-primary'
-        -else
+            = link_to "#{@current_user.name}", tickets_url, class: 'nav-link text-primary'
+        - else
           %li.nav-item
             %a.nav-link{href: 'login'} Log In

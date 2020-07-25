@@ -16,4 +16,4 @@
             = link_to "#{@current_user.name}", tickets_url, class: 'nav-link text-primary'
         - else
           %li.nav-item
-            %a.nav-link{href: 'login'} Log In
+            = link_to 'Log In', login_path, class: 'nav-link'
